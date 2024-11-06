@@ -19,7 +19,6 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class TravelPolicyTest
 {
-//	private final SelenideElement cookiesPopup = $ ("#module-284");
 	private final SelenideElement cookiesPopupAcceptAll = $ (By.xpath ("//*[@id='module-284']//button[3]"));
 
 
