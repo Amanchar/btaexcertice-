@@ -5,19 +5,20 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public class TravelersDataPage
 {
 	private final SelenideElement travelersDataForm = $ ("#form-travel-travellers");
 	private final SelenideElement travelersFirstName = $ ("#travelerFirstName0-text");
-	private final SelenideElement travelersLastName = $ ("#travelerLastName0");
-	private final SelenideElement travelersPersonalCode = $ ("#form-travel-travellers");
+	private final SelenideElement travelersLastName = $ ("#travelerLastName0-text");
+	private final SelenideElement travelersPersonalCode = $ ("#travelerIdentityNumber0-text");
 
 
 	public boolean isTravelersDataFormVisible ()
 	{
-		return travelersDataForm.shouldBe (Condition.visible, Duration.ofSeconds (30)).exists ();
+		return travelersDataForm.shouldBe (visible, Duration.ofSeconds (30)).exists ();
 	}
 
 	public String getFirstName ()

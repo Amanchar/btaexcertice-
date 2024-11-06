@@ -1,9 +1,9 @@
 package com.bta.insurance.pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MainPage
@@ -13,7 +13,7 @@ public class MainPage
 
 	public void clickTravelPolicy ()
 	{
-		travelPolicyBtn.should (Condition.visible).click ();
+		travelPolicyBtn.shouldBe (visible).click ();
 	}
 
 }

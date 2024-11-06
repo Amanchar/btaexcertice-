@@ -1,25 +1,23 @@
 package com.bta.insurance.pages.travel;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 
-public class PolicyPlanPage
+public class PolicyPlanPage extends TravelPolicyBasePage
 {
 	private final SelenideElement policyPlanOptimal = $ (byXpath ("//button[@datatype='selectPolicyPlanOPTIMAL']"));
 
 
-	public PolicyOptionsPage clickOptimaPlan ()
+	public void clickOptimaPlan ()
 	{
-		policyPlanOptimal.scrollIntoView ("{behavior: \"instant\", block: \"end\", inline: \"nearest\"}");
-		policyPlanOptimal.shouldBe (Condition.visible, Duration.ofSeconds (10))
+		policyPlanOptimal.shouldBe (visible, Duration.ofSeconds (15))
+				.scrollIntoView ("{behavior: \"instant\", block: \"end\", inline: \"nearest\"}")
 				.click ();
-
-		return new PolicyOptionsPage ();
 	}
 
 }

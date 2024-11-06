@@ -12,12 +12,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TravelPolicyTest
 {
-	private final SelenideElement cookiesPopup = $ (By.xpath ("//section[@id='module-284']"));
+//	private final SelenideElement cookiesPopup = $ ("#module-284");
 	private final SelenideElement cookiesPopupAcceptAll = $ (By.xpath ("//*[@id='module-284']//button[3]"));
 
 
@@ -26,9 +28,7 @@ public class TravelPolicyTest
 	{
 		open ("https://www.bta.lv/");
 
-		cookiesPopup.should (Condition.exist);
-		cookiesPopup.shouldBe (Condition.visible);
-		cookiesPopupAcceptAll.click ();
+		cookiesPopupAcceptAll.shouldBe (Condition.exist, Duration.ofSeconds (10)).click ();
 	}
 
 	@Test
@@ -52,11 +52,14 @@ public class TravelPolicyTest
 
 		Assertions.assertEquals ("Ar paaugstināta riska aktivitātēm", travelInfoPage.getActivity ());
 
-		PolicyPlanPage policyPlanPage = travelInfoPage.clickSubmit ();
+		travelInfoPage.clickSubmit ();
 
-		PolicyOptionsPage policyOptionsPage = policyPlanPage.clickOptimaPlan ();
+		PolicyPlanPage policyPlanPage = new PolicyPlanPage ();
+		policyPlanPage.clickOptimaPlan ();
 
-		Assertions.assertTrue (policyOptionsPage.areAdditionalOptionsVisible ());
+		PolicyOptionsPage policyOptionsPage = new PolicyOptionsPage ();
+
+		Assertions.assertTrue (policyOptionsPage.isAdditionsWidgetVisible ());
 		Assertions.assertTrue (policyOptionsPage.isInsuranceWidgetVisible ());
 
 		String priceBefore = policyOptionsPage.getAdditionalOptionPrice ();
@@ -67,7 +70,9 @@ public class TravelPolicyTest
 
 		Assertions.assertNotEquals (priceBefore, policyOptionsPage.getAdditionalOptionPrice ());
 
-		TravelersDataPage travelersDataPage = policyOptionsPage.clickContinue ();
+		policyOptionsPage.clickContinue ();
+
+		TravelersDataPage travelersDataPage = new TravelersDataPage ();
 
 		Assertions.assertTrue (travelersDataPage.isTravelersDataFormVisible ());
 		Assertions.assertEquals ("", travelersDataPage.getFirstName ());

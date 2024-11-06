@@ -1,6 +1,5 @@
 package com.bta.insurance.pages.travel;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
@@ -8,39 +7,44 @@ import org.openqa.selenium.By;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
-public class PolicyOptionsPage
+public class PolicyOptionsPage extends TravelPolicyBasePage
 {
-	private final SelenideElement additionalOption = $ ("#additional-options");
-	private final SelenideElement insurancePlanWidget = $ ("#insurance-plan-widget");
+	private final SelenideElement widgetAdditionalOptions = $ ("#additional-options");
+	private final SelenideElement widgetInsurancePlan = $ ("#insurance-plan-widget");
 	private final SelenideElement insurancePlanContinueBtn = $ (byXpath ("//div[@id='insurance-plan-widget']/button"));
+	private final SelenideElement additionsEditDetailsBtn = $ (byXpath ("//button[contains(@class,'edit-details')]"));
+	private final SelenideElement additionsSumEnsuredDropDown = $ ("#deductible-open");
+	private final SelenideElement additionsConfirmDetailsBtn = $ (byXpath ("//button[contains(@class,'confirm-details')]"));
+	private final SelenideElement additionsPrice = $ (".green");
 
 
-	public boolean areAdditionalOptionsVisible ()
+	public boolean isAdditionsWidgetVisible ()
 	{
-		return additionalOption.shouldBe (Condition.visible, Duration.ofSeconds (30)).exists ();
+		return widgetAdditionalOptions.shouldBe (visible, Duration.ofSeconds (30)).isDisplayed ();
 	}
 
 	public boolean isInsuranceWidgetVisible ()
 	{
-		return insurancePlanWidget.shouldBe (Condition.visible, Duration.ofSeconds (30)).exists ();
+		return widgetInsurancePlan.shouldBe (visible, Duration.ofSeconds (30)).isDisplayed ();
 	}
 
 	public String getAdditionalOptionPrice ()
 	{
-		return $ (".green").shouldBe (Condition.visible).getText ();
+		return additionsPrice.shouldBe (visible).getText ();
 	}
 
 	public void clickEditDetails ()
 	{
-		$ (By.xpath ("//button[contains(@class,'edit-details')]")).click ();
+		additionsEditDetailsBtn.shouldBe (visible).click ();
 	}
 
 	public void clickSumEnsured ()
 	{
-		$ ("#deductible-open").click ();
+		additionsSumEnsuredDropDown.shouldBe (visible).click ();
 	}
 
 	public void selectSumEnsured (String priceEnsured)
@@ -56,20 +60,19 @@ public class PolicyOptionsPage
 			}
 		}
 
-		throw new NoSuchElementException ("There is no option with price equal to " + priceEnsured);
+		throw new NoSuchElementException ("There is no option with a price equal to " + priceEnsured);
 	}
 
 	public void clickConfirm ()
 	{
-		$ (byXpath ("//button[contains(@class,'confirm-details')]")).click ();
-		$ (".content-loader").shouldNotBe (Condition.visible, Duration.ofSeconds (15));
+		additionsConfirmDetailsBtn.shouldBe (visible).click ();
+
+		hasLoaded ();
 	}
 
-	public TravelersDataPage clickContinue ()
+	public void clickContinue ()
 	{
-		insurancePlanContinueBtn.click ();
-
-		return new TravelersDataPage ();
+		insurancePlanContinueBtn.shouldBe (visible).click ();
 	}
 
 }
