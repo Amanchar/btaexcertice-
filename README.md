@@ -21,7 +21,9 @@ Build Tool: Maven<br />
 Version Control: Git<br />
 
 # Setup Instructions
-Clone the repository: Open Command Prompt and run:<br />
+Install and configure Apache Maven<br />
+Clone the repository<br />
+Open Command Prompt and run:<br />
 cd *project_directory*<br />
 mvn test -DargLine="-Dfile.encoding=UTF-8"<br />
 
